@@ -1,0 +1,75 @@
+{
+  "name": "@koopjs/koop-provider-open-brewery",
+  "version": "1.0.0",
+  "description": "Koop.js provider for the Open Brewery to query breweries",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">= 12.0 <15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:koopjs/koop-provider-hub-search.git"
+  },
+  "devDependencies": {
+    "@esri/arcgis-rest-feature-service": "^4.0.5",
+    "@types/express": "^4.17.13",
+    "@types/faker": "^5.5.7",
+    "@types/geojson": "^7946.0.10",
+    "@types/jest": "~26.0.23",
+    "@types/node": "~14.14.45",
+    "@typescript-eslint/eslint-plugin": "~4.28.2",
+    "@typescript-eslint/parser": "~4.28.2",
+    "coverage-badges-cli": "^1.0.11",
+    "eslint": "~7.30.0",
+    "eslint-config-prettier": "~8.3.0",
+    "eslint-plugin-jest": "~24.3.6",
+    "faker": "^5.5.3",
+    "fetch-mock-jest": "^1.5.1",
+    "geojson-validation": "^1.0.2",
+    "jest": "~27.0.6",
+    "prettier": "~2.3.2",
+    "rimraf": "~3.0.2",
+    "ts-jest": "~27.0.3",
+    "tsutils": "~3.21.0",
+    "typescript": "~4.3.5"
+  },
+  "scripts": {
+    "start": "DEBUG=info node build/src/index.js",
+    "dev": "npm run build && cd example-app && npm i && node src/index.js",
+    "clean": "rimraf coverage build tmp",
+    "prebuild": "rm -rf ./build && npm run lint",
+    "build": "npm run prebuild && tsc -p tsconfig.release.json",
+    "release": "npm run build && npm publish ./build --access=public",
+    "build:watch": "tsc -w -p tsconfig.release.json",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "jest --coverage && coverage-badges --output ./coverage.svg",
+    "test:watch": "jest --watch",
+    "prepack": "cp ../README.md ../LICENSE ."
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "<rootDir>/packages/**/*.{tsx,ts}",
+      "!**/*.{js,d.ts}"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "json-summary"
+    ]
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-auth": "^3.2.1",
+    "@koopjs/logger": "^5.0.0",
+    "@turf/projection": "^6.5.0",
+    "@turf/turf": "^6.5.0",
+    "isomorphic-fetch": "^3.0.0",
+    "isomorphic-form-data": "^2.0.0",
+    "lodash": "^4.17.21",
+    "tslib": "~2.3.0"
+  },
+  "author": "Caleb Mackey (caleb.mackey@gmail.com)",
+  "license": "ISC",
+  "volta": {
+    "node": "14.16.1",
+    "npm": "8.3.0"
+  }
+}
