@@ -55,7 +55,7 @@ export const extractParamsFromWhereClause = (where=''): BreweryWhereQuery => {
     const match = where.match(cityWhereRegExp) as RegExpMatchArray
     const city = match[2]
     if (city){
-      params.by_city = encodeURIComponent(match[2])
+      params.by_city = match[2].replace(/\s/g, '_')
     }
   }
 
@@ -64,7 +64,7 @@ export const extractParamsFromWhereClause = (where=''): BreweryWhereQuery => {
     const match = where.match(stateWhereRegExp) as RegExpMatchArray
     const state = match[2]
     if (state){
-      params.by_state = state
+      params.by_state = state.replace(/\s/g, '_')
     }
   }
 
