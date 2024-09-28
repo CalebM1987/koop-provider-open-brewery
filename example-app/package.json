@@ -10,7 +10,8 @@
     "@koopjs/koop-core": "^10.1.0",
     "@koopjs/provider-github": "^3.0.0",
     "config": "^3.2.5",
-    "koop-provider-craigslist": "^2.0.1"
+    "koop-provider-craigslist": "^2.0.1",
+    "koop-provider-open-brewery": "file:../../build"
   },
   "devDependencies": {
     "@koopjs/cli": "^0.6.0",
@@ -43,7 +44,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "start:dev": "koop serve --save --watch",
+    "start:dev": "DEBUG=info koop serve --save --watch",
     "test": "standard && tape test/*.js | tap-spec"
   }
 }

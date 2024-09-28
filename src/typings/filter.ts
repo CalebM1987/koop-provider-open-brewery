@@ -1,7 +1,7 @@
 export interface PassthroughFilters {
   /** true if all post processing should be skipped */
   all: boolean; 
-  /** rue if a geometric filter has already been applied to the data */
+  /** true if a geometric filter has already been applied to the data */
   geometry: boolean; 
   /** true if a sql-like where filter has already been applied to the data */
   where: boolean;

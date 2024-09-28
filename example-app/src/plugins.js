@@ -1,5 +1,7 @@
-const github = require('@koopjs/provider-github')
-const craigslist = require('koop-provider-craigslist')
+const openBrewery = require('../../build')
+console.log(
+  'openbrewery: ', openBrewery
+)
 
 // list different types of plugins in order
 const outputs = []
@@ -7,10 +9,7 @@ const auths = []
 const caches = []
 const plugins = [
   {
-    instance: github
-  },
-  {
-    instance: craigslist
+    instance: openBrewery
   }
 ]
 

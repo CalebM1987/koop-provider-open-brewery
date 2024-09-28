@@ -2,7 +2,7 @@ const welcome = require('./request-handlers/welcome')
 
 module.exports = [
   {
-    path: '/',
+    path: '/open-brewery/:id/metadata',
     methods: ['get'],
     handler: welcome
   }
