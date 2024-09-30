@@ -1,7 +1,7 @@
 import { fetchJson, log } from "../utils";
 import type { IQueryFeaturesOptions } from '@esri/arcgis-rest-feature-layer'
 import type { BreweryApiQueryParameters, BreweryMetaResponse, BreweryProperties, BreweryPropertiesRaw, BreweryType } from '../typings'
-// import { filterBreweriesByGeometry } from "../utils";
+import { getCentroid } from "../utils";
 
 export const baseUrl = 'https://api.openbrewerydb.org/v1/breweries'
 
@@ -136,7 +136,7 @@ export const translateEsriToParams = (options: EsriQueryProperties={}): BreweryA
   }
    
   if (options?.resultOffset && limit){
-    params.page = Math.ceil(options.resultOffset / limit) 
+    params.page = Math.ceil(options.resultOffset / limit) + 1
   }
   log.info(`translated esri query to open brewery query parameters: ${JSON.stringify(params, null, 2)}`)
   return params
@@ -177,6 +177,12 @@ export const fetchBreweries = async (query?: EsriQueryProperties): Promise<Brewe
   const results: BreweryProperties[] = []
 
   const params = translateEsriToParams(query)
+
+  if (query.geometry){
+    const point = getCentroid(JSON.parse(query.geometry as string))
+    params.by_dist = point.coordinates.reverse().join(',')
+    log.info(`found esri geometry in query, using centroid for by_dist: ${JSON.stringify(point, null, 2)}`)
+  }
 
   const url = buildUrl({ params })
   // TODO: support pagination

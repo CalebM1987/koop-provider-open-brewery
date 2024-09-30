@@ -48,11 +48,11 @@ export class OpenBreweryProvider {
       /**
        * notify koop that we have already processed these filters
        * that are true
-        where: didApplyWhereFilter(query.where),
+       */
       filtersApplied: {
         limit: Boolean(query.resultRecordCount),
         offset: Boolean(query.resultOffset),
-        where: Boolean(query.where),
+        where: didApplyWhereFilter(query.where),
       },
       crs: {
         type: 'name',
