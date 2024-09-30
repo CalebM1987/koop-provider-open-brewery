@@ -3,10 +3,14 @@ import { metadata } from './metadata'
 import { log } from './utils';
 import type { Request } from 'express';
 import type { BreweriesFeatureCollection, BreweryFeature } from './typings';
+import type { IQueryFeaturesOptions } from '@esri/arcgis-rest-feature-layer';
+
+type ArcGISQueryRequest = Request & { 
+  query: IQueryFeaturesOptions & { inputCrs?: any }
+}
 
 export class OpenBreweryProvider {
-  // , callback: (error: Error | null, payload: BreweriesFeatureCollection)=> void
-  async getData(request: Request){
+  async getData(request: ArcGISQueryRequest){
     const { 
       // params: { host, id }, 
       query 
@@ -14,8 +18,7 @@ export class OpenBreweryProvider {
     log.info(`query in request is: ${JSON.stringify(query, null, 2)}`)
 
     // default output SR to web mercator
-    // @ts-ignore
-    query.outSR = query.outSR ?? 3857
+    query.outSR = query.outSR ?? 3857 as any
 
     // set inputCrs to tell Koop.js the source SR is WGS84
     query.inputCrs = 4216
