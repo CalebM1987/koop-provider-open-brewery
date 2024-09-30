@@ -42,6 +42,7 @@ export class OpenBreweryProvider {
       features,
       type: 'FeatureCollection',
       metadata: {
+        ttl: 60 * 60,
         ...metadata,
       },
       filtersApplied: {
