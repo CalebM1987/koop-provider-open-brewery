@@ -45,6 +45,10 @@ export class OpenBreweryProvider {
         ttl: 60 * 60,
         ...metadata,
       },
+      /**
+       * notify koop that we have already processed these filters
+       * that are true
+        where: didApplyWhereFilter(query.where),
       filtersApplied: {
         limit: Boolean(query.resultRecordCount),
         offset: Boolean(query.resultOffset),

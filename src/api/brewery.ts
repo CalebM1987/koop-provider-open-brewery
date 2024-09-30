@@ -35,6 +35,18 @@ const typeWhereRegExp = /(type)\s?=\s?'(.*?)'/i
 const expressionMatches = (exp: RegExp, s: string)=> Boolean(s.match(exp))
 
 /**
+ * will return true if one of the special where clause filters were applied
+ * @param where - the where clause to evaluate
+ * @returns 
+ */
+export const didApplyWhereFilter = (where?: string)=> {
+  if (!where) return false
+
+  return [ cityWhereRegExp, stateWhereRegExp, postalWhereRegExp, typeWhereRegExp ]
+    .some(exp => expressionMatches(exp, where))
+}
+
+/**
  * creates open brewery api url query parameters from a given where clause
  * @param where - an input where clause
  * @returns the extracted parameters
