@@ -1,9 +1,6 @@
-import { fetchBreweries } from './api'
-import { defaultRenderer, metadata } from './metadata'
+import { fetchBreweries, didApplyWhereFilter } from './api'
+import { metadata } from './metadata'
 import { log } from './utils';
-// import { toMercator,
-//   // bbox 
-// } from '@turf/turf';
 import type { Request } from 'express';
 import type { BreweriesFeatureCollection, BreweryFeature } from './typings';
 
@@ -21,7 +18,6 @@ export class OpenBreweryProvider {
     query.outSR = query.outSR ?? 3857
 
     // set inputCrs to tell Koop.js the source SR is WGS84
-    //@ts-ignore
     query.inputCrs = 4216
 
     const breweries = await fetchBreweries(query)
@@ -50,9 +46,6 @@ export class OpenBreweryProvider {
         offset: Boolean(query.resultOffset),
         where: Boolean(query.where),
       },
-      // filters: {
-      //   projection: false
-      // },
       crs: {
         type: 'name',
         properties: {
@@ -62,26 +55,6 @@ export class OpenBreweryProvider {
     } as BreweriesFeatureCollection
 
     log.info(`first feature of ${geojson.features.length} total: ${JSON.stringify(geojson.features[0], null, 2)}`)
-
-
-    // // determine extent if < 1000 features
-    // let extent: any = undefined
-    // if (geojson.features.length && geojson.features.length < 1000){
-    //   const [ xmin, ymin, xmax, ymax ] = bbox(geojson.features)
-    //   extent = {
-    //     xmin,
-    //     ymin,
-    //     xmax,
-    //     ymax,
-    //     spatialReference: {
-    //       wkid: outSR === 3857 ? 102100: outSR,
-    //       latestWkid: outSR
-    //     }
-    //   }
-    //   console.log('set extent: ', extent)
-    // }
-
-    // callback(null, geojson)
     return geojson
   }
 }
