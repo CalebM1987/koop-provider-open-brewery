@@ -62,6 +62,7 @@
   "dependencies": {
     "@esri/arcgis-rest-auth": "^3.7.0",
     "@esri/arcgis-rest-feature-layer": "^3.7.0",
+    "@koopjs/cache-memory": "^6.0.0",
     "@koopjs/logger": "^5.0.0",
     "@terraformer/arcgis": "^2.1.2",
     "@turf/projection": "^6.5.0",

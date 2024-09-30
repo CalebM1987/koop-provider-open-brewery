@@ -11,10 +11,7 @@ type ArcGISQueryRequest = Request & {
 
 export class OpenBreweryProvider {
   async getData(request: ArcGISQueryRequest){
-    const { 
-      // params: { host, id }, 
-      query 
-    } = request
+    const { query } = request
     log.info(`query in request is: ${JSON.stringify(query, null, 2)}`)
 
     // default output SR to web mercator

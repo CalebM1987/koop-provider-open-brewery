@@ -1,5 +1,6 @@
 const config = require('config')
 const Koop = require('@koopjs/koop-core')
+const cache = require('@koopjs/cache-memory')
 const routes = require('./routes')
 const plugins = require('./plugins')
 
@@ -10,6 +11,9 @@ const koop = new Koop()
 plugins.forEach((plugin) => {
   koop.register(plugin.instance, plugin.options)
 })
+
+// register memory-cache
+koop.register(cache, { size: 1000 })
 
 // add additional routes
 routes.forEach((route) => {
