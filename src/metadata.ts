@@ -105,9 +105,12 @@ const fields = [
 ) as IField[]
 
 
-export const metadata: Partial<ILayerDefinition> = {
+export const metadata: Partial<ILayerDefinition> & Record<string, any> = {
   fields,
   maxRecordCount,
+  // note: this is NOT documented, but can set the renderer like this:
+  renderer: defaultRenderer,
+  name: 'Open Brewery Data',
   displayField: 'name',
   description: 'Features from the Open Brewery API',
   geometryType: 'esriGeometryPoint',

@@ -44,8 +44,6 @@ export class OpenBreweryProvider {
       type: 'FeatureCollection',
       metadata: {
         ...metadata,
-        // note: this is NOT documented, but can set the renderer like this:
-        renderer: defaultRenderer,
       },
       filtersApplied: {
         limit: Boolean(query.resultRecordCount),
