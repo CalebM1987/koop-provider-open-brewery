@@ -1,4 +1,8 @@
-# Koop Provider for OpenAsset
+# Koop Provider for the Open Brewery DB API
+
+Sample Application from my [Serving up your data with Koop.js](https://gis.bolton-menk.com/presentations/serving-data-with-koop-2024) presentation at the MN GIS LIS Fall 2024 Conference.
+
+This project demonstrates how to create a [Koop.js](https://koopjs.github.io/docs/basics/what-is-koop) Provider Plugin for the [Open Brewery DB API](https://www.openbrewerydb.org/documentation)
 
 Local development:
 
@@ -7,37 +11,17 @@ cd example-app
 npm run start:dev
 ```
 
-## NSSM Service
-
-### Edit the service:
-
-```sh
-nssm edit bmi-koop
-```
-
-### start the service
-
-```sh
-nssm edit start-koop
-```
-
-### stop the service
-
-```sh
-nssm stop bmi-koop
-```
-
 ## example urls
 
 URL Schema: 
-[https://ags-gp1.bolton-menk.com:3055/koop-provider-openasset/bolton-menk/<:openasset-project-id>/FeatureServer/0](https://ags-gp1.bolton-menk.com:3055/koop-provider-openasset/bolton-menk/2840/FeatureServer/0)
+[https://localhost:8080/koop-provider-open-brewery/bolton-menk/<:open-brewery-project-id>/FeatureServer/0](https://localhost:8080/koop-provider-open-brewery/bolton-menk/2840/FeatureServer/0)
 
 Layer Definition:
-[https://ags-gp1.bolton-menk.com:3055/koop-provider-openasset/bolton-menk/2840/FeatureServer/0](https://ags-gp1.bolton-menk.com:3055/koop-provider-openasset/bolton-menk/2840/FeatureServer/0)
+[https://localhost:8080/koop-provider-open-brewery/bolton-menk/2840/FeatureServer/0](https://localhost:8080/koop-provider-open-brewery/bolton-menk/2840/FeatureServer/0)
 
 Query Url
-[https://ags-gp1.bolton-menk.com:3055/koop-provider-openasset/bolton-menk/2840/FeatureServer/0/query?f=json&maxRecordCountFactor=4&resultOffset=0&resultRecordCount=20&where=1%3D1&orderByFields=id&outFields=*&outSR=102100](https://ags-gp1.bolton-menk.com:3055/koop-provider-openasset/bolton-menk/2840/FeatureServer/0/query?f=json&maxRecordCountFactor=4&resultOffset=0&resultRecordCount=20&where=1%3D1&orderByFields=id&outFields=*&outSR=102100])
+[https://localhost:8080/koop-provider-open-brewery/bolton-menk/2840/FeatureServer/0/query?f=json&maxRecordCountFactor=4&resultOffset=0&resultRecordCount=20&where=1%3D1&orderByFields=id&outFields=*&outSR=102100](https://localhost:8080/koop-provider-open-brewery/bolton-menk/2840/FeatureServer/0/query?f=json&maxRecordCountFactor=4&resultOffset=0&resultRecordCount=20&where=1%3D1&orderByFields=id&outFields=*&outSR=102100])
 
 View in Map:
-[https://ags-gp1.bolton-menk.com:3055/static/viewer?id=<openasset-project-id>](https://ags-gp1.bolton-menk.com:3055/static/viewer.html?id=2840)
+[https://localhost:8080/static/viewer?id=<open-brewery-project-id>](https://localhost:8080/static/viewer.html?id=2840)
 
