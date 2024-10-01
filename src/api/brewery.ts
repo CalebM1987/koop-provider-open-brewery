@@ -1,4 +1,5 @@
 import { fetchJson, log } from "../utils";
+import { getCentroid } from "../utils";
 import type { IQueryFeaturesOptions } from '@esri/arcgis-rest-feature-layer'
 import type { 
   BreweryApiQueryParameters, 
@@ -7,7 +8,6 @@ import type {
   BreweryPropertiesRaw, 
   BreweryType 
 } from '../typings'
-import { getCentroid } from "../utils";
 
 export const baseUrl = 'https://api.openbrewerydb.org/v1/breweries'
 
@@ -30,24 +30,18 @@ export interface BreweryQueryBuilderOptions {
 
 export type BreweryWhereQuery = Pick<BreweryApiQueryParameters, "by_city" | "by_country" | "by_state" | "by_postal" | "by_type">
 
+/**
+ * will check if a string matches a RegExp
+ * @param exp - the RegExp to check for match against string
+ * @param s - the string to check for match against RegExp
+ * @returns `true` if the string matches the RegExp
+ */
+const expressionMatches = (exp: RegExp, s: string)=> Boolean(s.match(exp))
+
 const cityWhereRegExp = /(city)\s?=\s?'(.*?)'/i
 const stateWhereRegExp = /(state_province|state)\s?=\s?'(.*?)'/i
 const postalWhereRegExp = /(postal_code)\s?=\s?'(.*?)'/i
 const typeWhereRegExp = /(type)\s?=\s?'(.*?)'/i
-
-const expressionMatches = (exp: RegExp, s: string)=> Boolean(s.match(exp))
-
-/**
- * will return true if one of the special where clause filters were applied
- * @param where - the where clause to evaluate
- * @returns 
- */
-export const didApplyWhereFilter = (where?: string)=> {
-  if (!where) return false
-
-  return [ cityWhereRegExp, stateWhereRegExp, postalWhereRegExp, typeWhereRegExp ]
-    .some(exp => expressionMatches(exp, where))
-}
 
 /**
  * creates open brewery api url query parameters from a given where clause
@@ -62,8 +56,8 @@ export const didApplyWhereFilter = (where?: string)=> {
  * } 
  */
 export const extractParamsFromWhereClause = (where=''): BreweryWhereQuery => {
-  if (!where) return {}
   const params: BreweryWhereQuery = {}
+  if (!where) return params
 
   // first check for city
   if (expressionMatches(cityWhereRegExp, where)){
@@ -102,6 +96,18 @@ export const extractParamsFromWhereClause = (where=''): BreweryWhereQuery => {
   }
 
   return params
+}
+
+/**
+ * will return true if one of the special where clause filters were applied
+ * @param where - the where clause to evaluate
+ * @returns 
+ */
+export const didApplyWhereFilter = (where?: string)=> {
+  if (!where) return false
+
+  return [ cityWhereRegExp, stateWhereRegExp, postalWhereRegExp, typeWhereRegExp ]
+    .some(exp => expressionMatches(exp, where))
 }
 
 export type EsriQueryProperties = Omit<IQueryFeaturesOptions, 'url'>
