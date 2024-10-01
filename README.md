@@ -8,7 +8,10 @@ Local development:
 
 ```sh
 cd example-app
-npm run start:dev
+koop serve
+
+# or 
+# npm run start:dev
 ```
 
 ## example urls
