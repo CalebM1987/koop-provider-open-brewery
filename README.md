@@ -7,6 +7,8 @@ This project demonstrates how to create a [Koop.js](https://koopjs.github.io/doc
 Local development:
 
 ```sh
+npm i
+npm run build
 cd example-app
 koop serve
 

@@ -41,7 +41,6 @@ routes.forEach((route) => {
   })
 })
 
-
 // run SSL with self signed cert in dev mode
 const server = process.env.NODE_ENV !== 'development'
   ? https
