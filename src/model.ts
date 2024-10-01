@@ -1,12 +1,11 @@
 import { 
   fetchBreweries,
-  // fetchAndCacheBreweries, 
   didApplyWhereFilter, 
   maxRecordCount
 } from './api'
 import { metadata } from './metadata'
-import { log, convertGeometry, filterBreweriesByGeometry } from './utils';
 import type { Request } from 'express';
+import { log, convertGeometry, filterBreweriesByGeometry } from './utils';
 import type { BreweriesFeatureCollection, BreweryFeature } from './typings';
 import type { IQueryFeaturesOptions } from '@esri/arcgis-rest-feature-layer';
 
@@ -58,6 +57,7 @@ export class OpenBreweryProvider {
     const limitExceeded = Number(meta.total) > breweries.length
     log.info(`fetch breweries meta with limit exceeded: ${JSON.stringify({...meta, limitExceeded}, null, 2)}`)
 
+    // create final geojson payload to send to Koop
     const geojson = {
       features,
       type: 'FeatureCollection',
