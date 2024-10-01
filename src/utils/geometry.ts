@@ -6,9 +6,9 @@ import type {
   IEnvelope,
   IGeometry,
 } from '@esri/arcgis-rest-types'
-import { centroid, toWgs84  } from "@turf/turf"
-import type { Geometry, Point } from '@turf/turf'
-// import { BreweryProperties } from "../typings"
+import { centroid, toWgs84, booleanContains } from "@turf/turf"
+import type { Geometry, Point, GeometryTypes } from '@turf/turf'
+import type { BreweryFeature } from "../typings"
 
 export type EsriGeometry = 
   | IPoint 
@@ -46,6 +46,33 @@ export const getCentroid = (esriGeometry: EsriGeometry): Point => {
     : centroid(geometry).geometry as Point
 }
 
-// export const filterBreweriesByGeometry = (geometry: Geometry, breweries: BreweryProperties)=> {
+type FilterByGeometryResult = {
+  /**
+   * the filtered features
+   */
+  features: BreweryFeature[];
+  /**
+   * will be true if a geometry filter was actually applied,
+   * i.e. a polygon or line geometry was used to filter results
+   */
+  didApplyGeometryFilter: boolean;
+}
 
-// }
+/**
+ * will filter brewery features by a given geometry
+ * @param features - the features to filter
+ * @param geometry - the filter geometry
+ * @returns 
+ */
+export const filterBreweriesByGeometry = (features: BreweryFeature[], geometry?: Geometry): FilterByGeometryResult => {
+  const geometryFilterTypes: GeometryTypes[] = ['Polygon', 'MultiPolygon', 'LineString', 'MultiLineString']
+  if (geometryFilterTypes.includes(geometry?.type as GeometryTypes)){
+    return {
+      didApplyGeometryFilter: true,
+      features: features.filter(ft => booleanContains(geometry, ft.geometry))
+    }
+  } else {
+    return { features, didApplyGeometryFilter: false }
+  }
+
+}

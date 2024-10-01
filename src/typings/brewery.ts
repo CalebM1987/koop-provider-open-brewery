@@ -13,6 +13,9 @@ export interface LatLngNumber {
   longitude:      number;
   latitude:       number;
 }
+/**
+ * the available properties from the open brewery db api
+ */
 export interface BreweryPropertiesBase {
   id:             string;
   name:           string;
@@ -32,19 +35,40 @@ export interface BreweryPropertiesBase {
 
 export type BreweryPropertiesRaw = BreweryPropertiesBase & LatLngString;
 
-export type BreweryProperties = BreweryPropertiesBase & LatLngNumber;
+export type BreweryProperties = BreweryPropertiesBase & LatLngNumber & { OBJECTID: number };
 
+/**
+ * the Brewery GeoJSON feature
+ */
 export type BreweryFeature = Feature<Point, BreweryProperties>;
 
+/**
+ * the Breweries GeoJSON with metadata to be passed to Koop (Provider payload)
+ */
 export type BreweriesFeatureCollection = FeatureCollection<Point, BreweryProperties> & { 
   crs?: any;
-  metadata: {
-    /** 
+  /** 
      * the time to live for caching data (in seconds) 
      */
-    ttl?: number;
+  ttl?: number;
+  /**
+   * any filters handled by the provider itself
+   * for any values of `true`, Koop will skip
+   * applying these filters under the assumption
+   * the plugin has already applied them
+   */
+  filtersApplied?: PassthroughFilters;
+  /**
+   * the metadata for the layer and request
+   */
+  metadata: {
     crs?: any;
-    filtersApplied?: PassthroughFilters;
+    /**
+     * Whether total number of features in data source 
+     * is greater than number being returned
+     * @default false
+     */
+    limitExceeded?: boolean;
     [k: string]: any;
   },
   [k: string]: any;
@@ -103,7 +127,16 @@ export interface BreweryApiQueryParameters {
 }
 
 export interface BreweryMetaResponse {
-  total: string;
-  per_page: string;
-  page: string;
+  /**
+   * the total number of records from query criteria
+   */
+  total: string | number;
+  /**
+   * the number of results per page
+   */
+  per_page: string | number;
+  /**
+   * the current page
+   */
+  page: string | number;
 }
