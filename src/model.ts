@@ -22,7 +22,7 @@ export class OpenBreweryProvider {
     query.outSR = query.outSR ?? 3857 as any
 
     // set inputCrs to tell Koop.js the source SR is WGS84
-    query.inputCrs = 4216
+    query.inputCrs = 4326
     
     const { data: breweries, meta } = await fetchBreweries(query)
 
