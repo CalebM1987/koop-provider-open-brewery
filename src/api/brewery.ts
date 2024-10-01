@@ -109,7 +109,7 @@ export type EsriQueryProperties = Omit<IQueryFeaturesOptions, 'url'>
 /**
  * converts esri query parameters to open brewery api query parameters
  * @param query the esri query query
- * @returns 
+ * @returns - the equivalent open brewery api params
  */
 export const translateEsriQueryToParams = (query: EsriQueryProperties={}): BreweryApiQueryParameters => {
   query = query ?? {}
@@ -151,8 +151,8 @@ export const translateEsriQueryToParams = (query: EsriQueryProperties={}): Brewe
 
 /**
  * builds the query api url with path and query parameters
- * @param options 
- * @returns 
+ * @param options - the options for building the url
+ * @returns the built url
  */
 export const buildUrl = (options?: BreweryQueryBuilderOptions): URL => {
   const { params={}, path='' } = options ?? {}
@@ -174,6 +174,9 @@ export const getMeta = async (url: string): Promise<BreweryMetaResponse> => {
   return results
 }
 
+/**
+ * the response with data and pagination info
+ */
 type PaginatedResponse = {
   /**
    * the request metadata
@@ -187,8 +190,8 @@ type PaginatedResponse = {
 
 /**
  * fetch all brewery records, will paginate if necessary
- * @param params 
- * @returns 
+ * @param params - the open brewery api params
+ * @returns the response with data and pagination info
  */
 export const paginatedBreweryRequest = async (params: BreweryApiQueryParameters): Promise<PaginatedResponse> => {
 
@@ -197,8 +200,9 @@ export const paginatedBreweryRequest = async (params: BreweryApiQueryParameters)
     buildUrl({ 
       params, 
       path: '/meta'
-    }
-  ).href)
+    }).href
+  )
+
   log.info(`initial brewery query meta: ${JSON.stringify(meta, null, 2)}`)
 
   // find start page, default to 1
@@ -254,7 +258,7 @@ export const paginatedBreweryRequest = async (params: BreweryApiQueryParameters)
 /**
  * will fetch breweries from esri parameters
  * @param query - the esri query parameters
- * @returns the brewery features //Promise<BreweryProperties[]>
+ * @returns the brewery features as a paginated response
  */
 export const fetchBreweries = async (query?: EsriQueryProperties): Promise<PaginatedResponse> => {
   query = query ?? {}
