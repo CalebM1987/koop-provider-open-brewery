@@ -57,7 +57,7 @@ export const didApplyWhereFilter = (where?: string)=> {
  * const where = "city = 'san diego' AND state_province = 'california'"
  * console.log(extractParamsFromWhereClause(where))
  * {
- *   "by_city": "san%20diego",
+ *   "by_city": "san_diego",
  *   "by_state": "california"
  * } 
  */
