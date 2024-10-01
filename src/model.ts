@@ -61,6 +61,7 @@ export class OpenBreweryProvider {
     const geojson = {
       features,
       type: 'FeatureCollection',
+      // cache time to live in seconds
       ttl: 60 * 60,
       metadata: {
         ...metadata,
