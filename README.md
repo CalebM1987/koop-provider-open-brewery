@@ -14,14 +14,14 @@ npm run start:dev
 ## example urls
 
 URL Schema: 
-[https://localhost:8080/koop-provider-open-brewery/bolton-menk/<:open-brewery-project-id>/FeatureServer/0](https://localhost:8080/koop-provider-open-brewery/bolton-menk/2840/FeatureServer/0)
+[https://localhost:6443/koop-provider-open-brewery/bolton-menk/breweries/FeatureServer/0](https://localhost:6443/koop-provider-open-brewery/rest/services/breweries/FeatureServer/0)
 
 Layer Definition:
-[https://localhost:8080/koop-provider-open-brewery/bolton-menk/2840/FeatureServer/0](https://localhost:8080/koop-provider-open-brewery/bolton-menk/2840/FeatureServer/0)
+[https://localhost:6443/koop-provider-open-brewery/rest/services/breweries/FeatureServer/0](https://localhost:6443/koop-provider-open-brewery/rest/services/breweries/FeatureServer/0)
 
 Query Url
-[https://localhost:8080/koop-provider-open-brewery/bolton-menk/2840/FeatureServer/0/query?f=json&maxRecordCountFactor=4&resultOffset=0&resultRecordCount=20&where=1%3D1&orderByFields=id&outFields=*&outSR=102100](https://localhost:8080/koop-provider-open-brewery/bolton-menk/2840/FeatureServer/0/query?f=json&maxRecordCountFactor=4&resultOffset=0&resultRecordCount=20&where=1%3D1&orderByFields=id&outFields=*&outSR=102100])
+[https://localhost:6443/koop-provider-open-brewery/rest/services/breweries/FeatureServer/0/query?f=json&maxRecordCountFactor=4&resultOffset=0&resultRecordCount=20&where=1%3D1&orderByFields=id&outFields=*&outSR=102100](https://localhost:6443/koop-provider-open-brewery/rest/services/breweries/FeatureServer/0/query?f=json&maxRecordCountFactor=4&resultOffset=0&resultRecordCount=20&where=1%3D1&orderByFields=id&outFields=*&outSR=102100])
 
 View in Map:
-[https://localhost:8080/static/viewer?id=<open-brewery-project-id>](https://localhost:8080/static/viewer.html?id=2840)
+[https://localhost:6443/static/viewer?id=<open-brewery-project-id>](https://localhost:6443/static/viewer.html?id=2840)
 
