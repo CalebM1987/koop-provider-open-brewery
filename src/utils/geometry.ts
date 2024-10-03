@@ -5,10 +5,12 @@ import type {
   IPolyline,
   IEnvelope,
   IGeometry,
+  ISpatialReference
 } from '@esri/arcgis-rest-types'
 import { centroid, toWgs84, booleanContains } from "@turf/turf"
 import type { Geometry, Point, GeometryTypes } from '@turf/turf'
 import type { BreweryFeature } from "../typings"
+import { log } from "./logger"
 
 export type EsriGeometry = 
   | IPoint 
@@ -22,16 +24,18 @@ export type EsriGeometry =
  * @param esriGeometry - the esri geometry to convert
  * @returns the geometry as geojson
  */
-export const convertGeometry = (esriGeometry: EsriGeometry, projectToWGS=true)=> {
-  const geometry = arcgisToGeoJSON(esriGeometry) as Geometry
-  if (projectToWGS){
-    const isMercator = [ esriGeometry.spatialReference?.wkid, esriGeometry.spatialReference?.latestWkid ]
-      .some(wkid => [ 3857, 102100 ]
-        .includes(wkid)
-      )
-    return isMercator ? toWgs84(geometry): geometry
+export const convertGeometry = (esriGeometry: EsriGeometry | string, inSR?: string | number)=> {
+  if (typeof esriGeometry === 'string'){
+    try {
+      esriGeometry = JSON.parse(esriGeometry)
+    } catch(err){
+      log.info(`failed to parse geometry: ${esriGeometry}`)
+    }
   }
-  return geometry
+  const geometry = arcgisToGeoJSON(esriGeometry as EsriGeometry) as Geometry
+  const isMercator = [ 3857, 102100, '3857', '102100' ].includes(inSR)
+  console.log('IS MERCATOR: ', isMercator, inSR, typeof inSR)
+  return isMercator ? toWgs84(geometry): geometry
 }
 
 /**
@@ -39,8 +43,11 @@ export const convertGeometry = (esriGeometry: EsriGeometry, projectToWGS=true)=>
  * @param esriGeometry - the esri json to fetch Point for
  * @returns a Point geometry
  */
-export const getCentroid = (esriGeometry: EsriGeometry): Point => {
-  const geometry = convertGeometry(esriGeometry, true)
+export const getCentroid = (esriGeometry: EsriGeometry, inSR?: string | number | ISpatialReference): Point => {
+  const sr = ['string', 'number'].includes(typeof inSR) 
+    ? inSR 
+    : getSR(inSR as ISpatialReference)
+  const geometry = convertGeometry(esriGeometry, sr as any)
   return geometry.type === 'Point' 
     ? geometry as Point
     : centroid(geometry).geometry as Point
@@ -75,4 +82,19 @@ export const filterBreweriesByGeometry = (features: BreweryFeature[], geometry?:
     return { features, didApplyGeometryFilter: false }
   }
 
+}
+
+/**
+ * will attempt to get the spatial reference WKID if present
+ * @param geometry 
+ * @returns the well known id if present
+ */
+export const getSR = (geometry?: EsriGeometry | ISpatialReference)=> {
+  if (!geometry) return undefined
+  if ('spatialReference' in geometry){
+    return geometry.spatialReference?.latestWkid ?? geometry.spatialReference?.wkid
+  } else if ('wkid' in geometry || 'latestWkid' in geometry){
+    return geometry?.latestWkid ?? geometry?.wkid
+  }
+  return undefined
 }
