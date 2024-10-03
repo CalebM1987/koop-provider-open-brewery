@@ -105,6 +105,18 @@ export class OpenBreweryProvider {
     } as BreweriesFeatureCollection
 
     log.info(`first feature of ${geojson.features.length} total: ${JSON.stringify(geojson.features[0], null, 2)}`)
+
+    /**
+     * hack: if returnCountOnly is `true`, we need to return the meta total
+     * we can fake this by just copying the first feature <N> times to match
+     * the meta total
+     */
+    if ([true, 'true'].includes(query.returnCountOnly)){
+      log.info(`resultRecordCount requested, we will fake the data to match the meta.total of ${meta.total}`)
+      const repeatItem = (item, n) => Array.from({ length: n }, () => item);
+      geojson.features = repeatItem(geojson.features[0], Number(meta.total))
+      geojson.metadata.maxRecordCount = Number(meta.total)
+    }
     
     callback(null, geojson)
   }
