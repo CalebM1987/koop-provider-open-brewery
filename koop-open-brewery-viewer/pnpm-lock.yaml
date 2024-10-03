@@ -11,15 +11,24 @@ importers:
       '@arcgis/core':
         specifier: ^4.30.9
         version: 4.30.9(@floating-ui/utils@0.2.8)
+      '@highlightjs/vue-plugin':
+        specifier: ^2.1.0
+        version: 2.1.0(highlight.js@11.10.0)(vue@3.5.10(typescript@5.4.5))
       '@quasar/extras':
         specifier: ^1.16.12
         version: 1.16.12
+      highlight.js:
+        specifier: ^11.10.0
+        version: 11.10.0
       quasar:
         specifier: ^2.17.0
         version: 2.17.0
       vue:
         specifier: ^3.4.29
         version: 3.5.10(typescript@5.4.5)
+      vue-hljs:
+        specifier: ^3.0.1
+        version: 3.0.1(highlight.js@11.10.0)(vue@3.5.10(typescript@5.4.5))
     devDependencies:
       '@quasar/vite-plugin':
         specifier: ^1.7.0
@@ -371,6 +380,12 @@ packages:
 
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
+
+  '@highlightjs/vue-plugin@2.1.0':
+    resolution: {integrity: sha512-E+bmk4ncca+hBEYRV2a+1aIzIV0VSY/e5ArjpuSN9IO7wBJrzUE2u4ESCwrbQD7sAy+jWQjkV5qCCWgc+pu7CQ==}
+    peerDependencies:
+      highlight.js: ^11.0.1
+      vue: ^3
 
   '@interactjs/types@1.10.27':
     resolution: {integrity: sha512-BUdv0cvs4H5ODuwft2Xp4eL8Vmi3LcihK42z0Ft/FbVJZoRioBsxH+LlsBdK4tAie7PqlKGy+1oyOncu1nQ6eA==}
@@ -851,6 +866,10 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
+  highlight.js@11.10.0:
+    resolution: {integrity: sha512-SYVnVFswQER+zu1laSya563s+F8VDGt7o35d4utbamowvUNLLMovFqwCLSocpZTz3MgaSRA1IbqRWZv97dtErQ==}
+    engines: {node: '>=12.0.0'}
+
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
 
@@ -1219,6 +1238,12 @@ packages:
   vscode-uri@3.0.8:
     resolution: {integrity: sha512-AyFQ0EVmsOZOlAnxoFOGOq1SQDWAB7C6aqMGS23svWAllfOaxbuFvcT8D1i8z3Gyn8fraVeZNNmN6e9bxxXkKw==}
 
+  vue-hljs@3.0.1:
+    resolution: {integrity: sha512-o4Pw7bgHKCamdm2NeIVkX8Ck2GzDTDpa25+rV0LTDhosN5DFdJop3YaNm7hI6AfxCbVIwue87Cv/h/Nqp0khSQ==}
+    peerDependencies:
+      highlight.js: ^10.0.0
+      vue: ^3.0.0
+
   vue-tsc@2.1.6:
     resolution: {integrity: sha512-f98dyZp5FOukcYmbFpuSCJ4Z0vHSOSmxGttZJCsFeX0M4w/Rsq0s4uKXjcSRsZqsRgQa6z7SfuO+y0HVICE57Q==}
     hasBin: true
@@ -1577,6 +1602,11 @@ snapshots:
       '@floating-ui/utils': 0.2.8
 
   '@floating-ui/utils@0.2.8': {}
+
+  '@highlightjs/vue-plugin@2.1.0(highlight.js@11.10.0)(vue@3.5.10(typescript@5.4.5))':
+    dependencies:
+      highlight.js: 11.10.0
+      vue: 3.5.10(typescript@5.4.5)
 
   '@interactjs/types@1.10.27': {}
 
@@ -2133,6 +2163,8 @@ snapshots:
 
   he@1.2.0: {}
 
+  highlight.js@11.10.0: {}
+
   hookable@5.5.3: {}
 
   html-tags@3.3.1: {}
@@ -2447,6 +2479,11 @@ snapshots:
       sass: 1.79.4
 
   vscode-uri@3.0.8: {}
+
+  vue-hljs@3.0.1(highlight.js@11.10.0)(vue@3.5.10(typescript@5.4.5)):
+    dependencies:
+      highlight.js: 11.10.0
+      vue: 3.5.10(typescript@5.4.5)
 
   vue-tsc@2.1.6(typescript@5.4.5):
     dependencies:

@@ -205,6 +205,10 @@ export const buildUrl = (options?: BreweryQueryBuilderOptions): URL => {
 export const getMeta = async (url: string): Promise<BreweryMetaResponse> => {
   // const url = buildUrl(options)
   const results  = await fetchJson<BreweryMetaResponse>(url)
+  for (const key in results){
+    // cast to number
+    results[key] = Number(results[key])
+  }
   return results
 }
 

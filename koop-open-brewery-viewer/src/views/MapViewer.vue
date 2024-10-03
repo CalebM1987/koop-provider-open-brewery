@@ -59,26 +59,43 @@ const sketch = new Sketch({
   // }
 })
 
+const queryFeatures = async ({ graphic, where }: { graphic?: __esri.QueryProperties; where?: string})=> {
+  const query = {
+    outFields: ['*'],
+    returnGeometry: true
+  } as __esri.QueryProperties
+
+  if (where){
+    query.where = where
+  }
+
+  if (graphic){
+    query.geometry = graphic.geometry
+  }
+  
+  console.log('sketch create event: ', graphic)
+    
+  const { features } = await layer.queryFeatures(query)
+
+  eventBus.emit('queried-layer', { features, query })
+
+  if (layerView.value){
+    highlightHandle && highlightHandle.remove()
+    if (features.length){
+      highlightHandle = layerView.value.highlight(features)
+    }
+  }
+}
+
+eventBus.on('send-where-clause', (where)=> {
+  queryFeatures({ where })
+})
+
 // listen to sketch create 
 sketch.on('create', async ({ graphic, state })=> {
   if (state === 'complete'){
 
-    console.log('sketch create event: ', graphic)
-    const query = {
-      geometry: graphic.geometry,
-      outFields: ['*'],
-      returnGeometry: true
-    }
-    const { features } = await layer.queryFeatures(query)
-  
-    eventBus.emit('queried-layer', { features, query })
-  
-    if (layerView.value){
-      highlightHandle && highlightHandle.remove()
-      if (features.length){
-        highlightHandle = layerView.value.highlight(features)
-      }
-    }
+    queryFeatures({ graphic })
   }
 
 })

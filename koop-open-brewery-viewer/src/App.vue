@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import koopLogo from '@/assets/logonav.png'
 import Home from '@/views/Home.vue'
+import QueryProperties from '@/components/QueryProperties.vue'
 
 const leftDrawerOpen = ref(false)   
 const toggleLeftDrawer = ()=> leftDrawerOpen.value = !leftDrawerOpen.value
@@ -24,8 +25,9 @@ const toggleLeftDrawer = ()=> leftDrawerOpen.value = !leftDrawerOpen.value
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
+    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered :width="400">
       <!-- drawer content -->
+       <QueryProperties />
     </q-drawer>
 
     <q-page-container>

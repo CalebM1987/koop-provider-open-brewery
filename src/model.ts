@@ -67,7 +67,7 @@ export class OpenBreweryProvider {
     }
 
     // check to see if limit was exceeded
-    const limitExceeded = Number(meta.total) > breweries.length
+    const limitExceeded = meta.total > breweries.length
     log.info(`fetch breweries meta with limit exceeded: ${JSON.stringify({...meta, limitExceeded}, null, 2)}`)
 
     // create final geojson payload to send to Koop
@@ -114,8 +114,8 @@ export class OpenBreweryProvider {
     if ([true, 'true'].includes(query.returnCountOnly)){
       log.info(`resultRecordCount requested, we will fake the data to match the meta.total of ${meta.total}`)
       const repeatItem = (item, n) => Array.from({ length: n }, () => item);
-      geojson.features = repeatItem(geojson.features[0], Number(meta.total))
-      geojson.metadata.maxRecordCount = Number(meta.total)
+      geojson.features = repeatItem(geojson.features[0], meta.total)
+      geojson.metadata.maxRecordCount = meta.total
     }
     
     callback(null, geojson)

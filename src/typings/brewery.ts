@@ -130,13 +130,13 @@ export interface BreweryMetaResponse {
   /**
    * the total number of records from query criteria
    */
-  total: string | number;
+  total: number;
   /**
    * the number of results per page
    */
-  per_page: string | number;
+  per_page: number;
   /**
    * the current page
    */
-  page: string | number;
+  page: number;
 }
