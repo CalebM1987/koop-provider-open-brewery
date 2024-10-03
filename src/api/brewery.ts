@@ -1,5 +1,5 @@
 import { fetchJson, log } from "../utils";
-import { getCentroid } from "../utils";
+import { getCentroid, getSR } from "../utils";
 import type { IQueryFeaturesOptions } from '@esri/arcgis-rest-feature-layer'
 import type { 
   BreweryApiQueryParameters, 
@@ -10,6 +10,18 @@ import type {
 } from '../typings'
 
 export const baseUrl = 'https://api.openbrewerydb.org/v1/breweries'
+
+const flip = (data: Record<any, any>) => Object.fromEntries(
+  Object
+    .entries(data)
+    .map(([key, value]) => [value, key])
+  );
+
+/**
+ * oid tracker
+ */
+let oid = 1
+
 /**
  * id map to keep track of OIDs
  * { <id>: <objectid> }
@@ -99,7 +111,6 @@ export const extractParamsFromWhereClause = (where=''): BreweryWhereQuery => {
       params.by_type = type as BreweryType
     }
   }
-
   return params
 }
 
@@ -157,6 +168,16 @@ export const translateEsriQueryToParams = (query: EsriQueryProperties={}): Brewe
    
   if (query?.resultOffset && limit){
     params.page = Math.ceil(query.resultOffset / limit) + 1
+  }
+
+  // check for "objectIds" in query
+  if (query.objectIds){
+    const oidLookup = flip(idMap)
+    params.by_ids = (query.objectIds as unknown as string)
+      .split(',')
+      .map(oid => oidLookup[oid])
+      .join(',')
+    log.info(`translated objectIds to by_ids`)
   }
   log.info(`translated esri query to open brewery query parameters: ${JSON.stringify(params, null, 2)}`)
   return params

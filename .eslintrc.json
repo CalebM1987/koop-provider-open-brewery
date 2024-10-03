@@ -9,7 +9,7 @@
       "project": "tsconfig.json",
       "sourceType": "module"
     },
-    "ignorePatterns": ["src/**/*.test.ts"],
+    "ignorePatterns": ["src/**/*.test.ts", "koop-open-brewery-viewer/**"],
     "plugins": ["@typescript-eslint", "jest"],
     "extends": [
       "eslint:recommended",
