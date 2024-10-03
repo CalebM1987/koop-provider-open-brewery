@@ -6,7 +6,7 @@ const plugins = require('./plugins')
 const fs = require('fs')
 const path = require('path')
 const https = require('https')
-
+const express = require('express')
 
 /**
  * self signed cert options
@@ -24,7 +24,6 @@ const serverOptions = {
 
 // initiate a koop app
 const koop = new Koop()
-
 
 // register koop plugins
 plugins.forEach((plugin) => {
@@ -49,6 +48,9 @@ const server = process.env.NODE_ENV !== 'development'
       koop.server
     )
   : koop.server
+
+// expose our viewer
+koop.server.use('/static', express.static('public'))
 
 // start the server
 server.listen(config.port, () => koop.log.info(`Koop server listening at ${config.port}`))
