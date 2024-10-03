@@ -16,6 +16,10 @@ koop serve
 # npm run start:dev
 ```
 
+## example viewer app:
+
+[https://localhost:6443/static/](https://localhost:6443/static/)
+
 ## example urls
 
 URL Schema: 
