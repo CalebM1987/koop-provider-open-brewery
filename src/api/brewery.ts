@@ -10,6 +10,11 @@ import type {
 } from '../typings'
 
 export const baseUrl = 'https://api.openbrewerydb.org/v1/breweries'
+/**
+ * id map to keep track of OIDs
+ * { <id>: <objectid> }
+ */
+export const idMap: Record<string, number> = {}
 
 // default to 1000 features for max record count
 export const maxRecordCount = 1000
@@ -241,17 +246,25 @@ export const paginatedBreweryRequest = async (params: BreweryApiQueryParameters)
   const results = await Promise.all(proms)
 
   // put all results together
-  results.forEach((data, i)=> {
+  results.forEach((data)=> {
     breweries.push(...data 
-      .map((d, fi) => ({
-        ...d,
-        OBJECTID: ((i+startPage) * breweryApiLimit) + fi + 1,
-        latitude: Number(d.latitude),
-        longitude: Number(d.longitude),
-      })) as any 
-    )
+      .map((d) => {
+        let OBJECTID = idMap[d.id]
+        if (!OBJECTID){
+          idMap[d.id] = oid
+          OBJECTID = oid
+          oid += 1
+        }
+        return {
+          ...d,
+          OBJECTID,
+          latitude: Number(d.latitude),
+          longitude: Number(d.longitude),
+        }
+      })
+    ) as any 
   })
-  console.log('retrieved all breweries: ', breweries.length)
+  log.info(`retrieved ${breweries.length} breweries. Next OBJECTID is ${oid}`)
 
   // update the metadata with the last page fetched
   meta.page = pages
