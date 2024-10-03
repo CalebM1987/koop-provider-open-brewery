@@ -40,7 +40,20 @@ export class OpenBreweryProvider {
     )
 
     // important: if a geometry was provided we should filter results here
-    const geometry = query.geometry ? convertGeometry(JSON.parse(query.geometry as string)): undefined
+    let queryGeometry: any = undefined
+    if (query.geometry){
+      try {
+        queryGeometry = JSON.parse(query.geometry as string)
+        log.info(`query geometry: ${JSON.stringify(queryGeometry, null, 2)}`)
+      }catch(err){
+        log.warn('failed to parse query geometry')
+      }
+    }
+    const inSR = getSR(queryGeometry) ?? query.inSR as any
+    const geometry = queryGeometry ? convertGeometry(queryGeometry, inSR): undefined
+    if (geometry){
+      log.info(`querying by geometry with inSR ${inSR}: ${JSON.stringify(geometry, null, 2)}`)
+    }
     const { features, didApplyGeometryFilter } = filterBreweriesByGeometry(breweryFeatures, geometry)
     if (didApplyGeometryFilter){
       log.info(`filtered breweries by ${geometry.type} geometry: ${features.length} out of ${breweryFeatures.length} matched`)

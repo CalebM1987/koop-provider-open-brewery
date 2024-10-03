@@ -134,7 +134,9 @@ export const translateEsriQueryToParams = (query: EsriQueryProperties={}): Brewe
 
   // check for geometry 
   if (query.geometry){
-    const point = getCentroid(JSON.parse(query.geometry as string))
+    const geometry = JSON.parse(query.geometry as string)
+    const inSR = getSR(geometry) ?? query.inSR
+    const point = getCentroid(geometry, inSR)
     params.by_dist = point.coordinates.reverse().join(',')
     log.info(`found esri geometry in query, using centroid for by_dist: ${JSON.stringify(point, null, 2)}`)
   }
