@@ -5,7 +5,7 @@ import {
 } from './api'
 import { metadata } from './metadata'
 import type { Request } from 'express';
-import { log, convertGeometry, filterBreweriesByGeometry } from './utils';
+import { log, getSR, convertGeometry, filterBreweriesByGeometry } from './utils';
 import type { BreweriesFeatureCollection, BreweryFeature } from './typings';
 import type { IQueryFeaturesOptions } from '@esri/arcgis-rest-feature-layer';
 
