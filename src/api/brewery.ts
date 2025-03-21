@@ -103,7 +103,7 @@ export const extractParamsFromWhereClause = (where=''): BreweryWhereQuery => {
     }
   }
 
-  // check for postal code
+  // check for brewery type
   if (expressionMatches(typeWhereRegExp, where)){
     const match = where.match(typeWhereRegExp) as RegExpMatchArray
     const type = match[2]
