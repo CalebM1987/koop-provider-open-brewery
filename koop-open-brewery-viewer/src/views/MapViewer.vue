@@ -43,23 +43,26 @@ const graphicsLayer = new GraphicsLayer({ title: 'sketch-graphics' })
 
 const sketch = new Sketch({
   view,
-  layer: graphicsLayer
-  // availableCreateTools: ['rectangle', 'circle', 'polygon', 'polyline'],
-  // visibleElements: {
-  //   createTools: {
-  //     polygon: true,
-  //     polyline: true,
-  //     rectangle: true,
-  //     circle: true
-  //   },
-  //   selectionTools: {
-  //     'rectangle-selection': true,
-  //     'lasso-selection': true
-  //   }
-  // }
+  layer: graphicsLayer,
+  availableCreateTools: ['freehandPolygon', 'rectangle', 'circle', 'polygon', 'polyline'],
+  visibleElements: {
+    settingsMenu: false,
+    undoRedoMenu: false,
+    selectionTools: {
+      "lasso-selection": false,
+      "rectangle-selection": false
+    },
+    createTools: {
+      point: false,
+      polygon: true,
+      polyline: true,
+      rectangle: true,
+      circle: true,
+    }
+  }
 })
 
-const queryFeatures = async ({ graphic, where }: { graphic?: __esri.QueryProperties; where?: string})=> {
+const queryFeatures = async ({ graphic, where, zoomTo=false }: { graphic?: __esri.QueryProperties; where?: string; zoomTo?: boolean})=> {
   const query = {
     outFields: ['*'],
     returnGeometry: true
@@ -85,10 +88,12 @@ const queryFeatures = async ({ graphic, where }: { graphic?: __esri.QueryPropert
       highlightHandle = layerView.value.highlight(features)
     }
   }
+
+  zoomTo && view.goTo(features)
 }
 
 eventBus.on('send-where-clause', (where)=> {
-  queryFeatures({ where })
+  queryFeatures({ where, zoomTo: true })
 })
 
 // listen to sketch create 
