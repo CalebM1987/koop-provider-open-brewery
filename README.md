@@ -4,7 +4,21 @@ Sample Application from my [Serving up your data with Koop.js](https://gis.bolto
 
 This project demonstrates how to create a [Koop.js](https://koopjs.github.io/docs/basics/what-is-koop) Provider Plugin for the [Open Brewery DB API](https://www.openbrewerydb.org/documentation)
 
-Local development:
+## Installation
+
+npm: 
+
+```sh
+npm i koop-provider-open-brewery
+```
+
+yarn:
+
+```sh
+yarn add koop-provider-open-brewery
+```
+
+## Local development:
 
 ```sh
 npm i
