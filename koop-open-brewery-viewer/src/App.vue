@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineAsyncComponent } from 'vue'
+import { ref } from 'vue'
 import koopLogo from '@/assets/logonav.png'
 import Home from '@/views/Home.vue'
 import QueryProperties from '@/components/QueryProperties.vue'

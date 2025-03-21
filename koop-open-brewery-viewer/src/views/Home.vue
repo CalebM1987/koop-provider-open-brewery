@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from 'vue'
 
 const MapViewer = defineAsyncComponent(()=> import('./MapViewer.vue'))
 

@@ -8,4 +8,5 @@ interface QueriedFeaturesPayload {
 export const eventBus = new EventBus<{
     'queried-layer': (payload: QueriedFeaturesPayload) => void;
     'send-where-clause': (where: string)=> void;
+    'clear-selection': () => void;
 }>()

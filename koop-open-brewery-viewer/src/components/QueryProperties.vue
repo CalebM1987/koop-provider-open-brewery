@@ -11,7 +11,7 @@ import 'highlight.js/styles/monokai-sublime.css'
 hljs.registerLanguage('javascript', javascript);
 
 const query = shallowRef<__esri.QueryProperties>()
-const features = shallowRef<any[]>()
+const features = shallowRef<__esri.Graphic[]>([])
 
 const whereClause = ref('')
 
@@ -29,6 +29,13 @@ const runQuery = ()=> {
   eventBus.emit('send-where-clause', whereClause.value)
 }
 
+const clearSelection = ()=> {
+  whereClause.value = ''
+  features.value = []
+  query.value = undefined
+  eventBus.emit('clear-selection')
+}
+
 </script>
 
 <template>
@@ -41,7 +48,27 @@ const runQuery = ()=> {
         v-model="whereClause" clearable 
       />
 
-      <q-btn class="q-my-sm" label="Run Query" @disable="!whereClause" @click="runQuery" placeholder="city = 'duluth'" />
+      <div class="row q-my-sm">
+
+        <q-btn 
+          color="primary"
+          label="Run Query" 
+          @disable="!whereClause" 
+          @click="runQuery" 
+          placeholder="city = 'duluth'" 
+        />
+
+        <q-btn
+          outline
+          v-if="features.length" 
+          color="negative"
+          class="q-ml-lg"
+          label="Clear Selection"
+          @click="clearSelection"
+        />
+      </div>
+
+      
     </div>
 
     <div class="code-sections q-my-md">
@@ -65,7 +92,7 @@ const runQuery = ()=> {
         <q-expansion-item
         default-opened
           expand-separator
-          label="Result Features"
+          :label="`Result Features ${features.length ? `(${features.length})` : ''}`"
         >
         <q-card>
           <q-card-section>

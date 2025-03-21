@@ -6,6 +6,9 @@ import MapView from '@arcgis/core/views/MapView'
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer'
 import Sketch from "@arcgis/core/widgets/Sketch.js"
+import Expand from '@arcgis/core/widgets/Expand'
+import BasemapGallery from '@arcgis/core/widgets/BasemapGallery'
+import Locate from '@arcgis/core/widgets/Locate'
 
 const esriMap = shallowRef<HTMLDivElement | null>(null)
 
@@ -44,6 +47,7 @@ const graphicsLayer = new GraphicsLayer({ title: 'sketch-graphics' })
 const sketch = new Sketch({
   view,
   layer: graphicsLayer,
+  creationMode: 'single',
   availableCreateTools: ['freehandPolygon', 'rectangle', 'circle', 'polygon', 'polyline'],
   visibleElements: {
     settingsMenu: false,
@@ -96,10 +100,16 @@ eventBus.on('send-where-clause', (where)=> {
   queryFeatures({ where, zoomTo: true })
 })
 
+eventBus.on('clear-selection', ()=> {
+  if (layerView.value){
+    highlightHandle && highlightHandle.remove()
+  }
+})
+// listen to query event from QueryProperties.vue
+
 // listen to sketch create 
 sketch.on('create', async ({ graphic, state })=> {
   if (state === 'complete'){
-
     queryFeatures({ graphic })
   }
 
@@ -111,6 +121,25 @@ onMounted(()=> {
 
     // add sketch widget
     view.ui.add(sketch, 'top-right')
+
+    const locate = new Locate({
+      view,
+    })
+
+    view.ui.add(locate, 'top-left')
+
+    // add basemap gallery to an expand widget
+    const basemapGallery = new BasemapGallery({
+      view,
+    })
+
+    const expand = new Expand({
+      view,
+      content: basemapGallery,
+      expandTooltip: 'Show Basemap Gallery',
+      collapseTooltip: 'Hide Basemap Gallery',
+    })
+    view.ui.add(expand, 'bottom-right')
   }
 })
 
